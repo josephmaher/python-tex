@@ -41,6 +41,8 @@ PDF size: 5.6 KB
 '%PDF-'
 >>> pdf[-6:]
 '%%EOF\n'
+
+Updated to work with python3 by Joseph Maher <github@josephmaher.org>
 '''
 
 __version__      = '1.8'
@@ -92,21 +94,21 @@ import tempfile
 
 def _file_read(filename):
     '''Read the content of a file and close it properly.'''
-    f = file(filename, 'rb')
+    f = open(filename, 'rb')
     content = f.read()
     f.close()
     return content
 
 def _file_write(filename, content):
     '''Write into a file and close it properly.'''
-    f = file(filename, 'wb')
+    f = open(filename, 'wb')
     f.write(content)
     f.close()
 
 def convert(tex_source, input_format, output_format, max_runs=5):
     '''Convert LaTeX or TeX source to PDF or DVI.'''
     # check arguments
-    assert isinstance(tex_source, unicode)
+    assert isinstance(tex_source, str)
     try:
         (tex_cmd, output_suffix) = {
             ('tex',   'dvi'): ('tex',      '.dvi'),
@@ -127,7 +129,7 @@ def convert(tex_source, input_format, output_format, max_runs=5):
         _file_write(tex_filename, tex_source.encode('UTF-8'))
         # run LaTeX processor as often as necessary
         aux_old = None
-        for i in xrange(max_runs):
+        for i in range(max_runs):
             tex_process = subprocess.Popen(
                 [tex_cmd,
                     '-interaction=batchmode',
@@ -135,8 +137,8 @@ def convert(tex_source, input_format, output_format, max_runs=5):
                     '-no-shell-escape',
                     tex_filename,
                 ],
-                stdin=file(os.devnull, 'r'),
-                stdout=file(os.devnull, 'w'),
+                stdin=open(os.devnull, 'r'),
+                stdout=open(os.devnull, 'w'),
                 stderr=subprocess.STDOUT,
                 close_fds=True,
                 shell=False,
