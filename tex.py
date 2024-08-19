@@ -46,9 +46,9 @@ Updated to work with python3 by Joseph Maher <github@josephmaher.org>
 '''
 
 __version__      = '1.8'
-__author__       = 'Volker Grabsch'
-__author_email__ = 'vog@notjusthosting.com'
-__url__          = 'http://www.profv.de/python-tex/'
+__author__       = 'Joseph Maher'
+__author_email__ = 'github@josephmaher.org'
+__url__          = 'https://github.com/josephmaher/python-tex'
 __classifiers__  = '''
                    Development Status :: 5 - Production/Stable
                    Development Status :: 6 - Mature
@@ -108,7 +108,6 @@ def _file_write(filename, content):
 def convert(tex_source, input_format, output_format, max_runs=5):
     '''Convert LaTeX or TeX source to PDF or DVI.'''
     # check arguments
-    assert isinstance(tex_source, str)
     try:
         (tex_cmd, output_suffix) = {
             ('tex',   'dvi'): ('tex',      '.dvi'),
